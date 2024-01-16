@@ -1,0 +1,15 @@
+{
+    "nav": {
+        "main": "Home",
+        "spec": "Specialists Management",
+        "direct": "Direct Consultation Management",
+        "treat": "Treatment Plans Management",
+        "support": "Support Group Management",
+        "earn": "Financial Accounts and Profits",
+        "messages": "Communication Messages",
+        "wallet": "Wallet",
+        "profile": "Profile",
+        "contact": "Contact Us",
+        "logout": "Logout"
+      }
+}

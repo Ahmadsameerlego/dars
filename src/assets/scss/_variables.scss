@@ -1,0 +1,110 @@
+// colors variables
+$main-color : #2858f6;
+$sec-color : #4aa236;
+$third-color : #c39935;
+
+// background 
+$main-background : #3290d8;
+.main-color{
+    color: $main-color;
+}
+.sec-color{
+    color: $sec-color;
+}
+.third-color{
+    color : $third-color !important;
+}
+.sec-bg{
+    background-color: $sec-color !important;
+}
+.border-none{
+    border: none !important;
+}
+
+.default_input{
+    border-radius: 25px !important;
+    height: 45px !important;
+}
+.default_input{
+    input{
+        border-radius: 25px !important;
+        height: 45px !important;    
+    }
+}
+.default_textarea{
+    height: 130px !important;
+}
+
+.main_btn{
+    position: relative;
+    background-color:$main-color !important;
+    border-radius: 5px !important;
+    color: #fff !important;
+    transition: .3s all;
+    background: linear-gradient(135deg,  $main-color 0%,$main-color 40%,#ffffff 50%,$main-color 60%,$main-color 100%);
+    background-repeat: no-repeat;  
+    background-position:0%;
+    background-size:300%; 
+
+    &:hover{
+        animation:light .7s;
+    }
+}
+@keyframes light {
+    0% {
+          background-position: 100%; 
+    }
+    100% { 
+          background-position:0%; 
+    }
+}
+.border_btn{
+    border: 1px solid $main-color;
+    color: $main-color;
+}
+
+.p-dialog-header-close{
+    background: #346cf6;
+    color: #fff;
+    border-radius: 50%;
+}
+.p-dropdown-label{
+    color: #6b7280 !important;
+    font-family: "Cairo", sans-serif !important;
+}
+.p-dropdown-trigger-icon{
+    color: #346cf6 !important;
+}
+
+
+@for $i from 9 through 50 {
+    .fs-#{$i} {
+        font-size: #{$i}px;
+    }
+}
+
+@for $i from 15 through 300{
+    .w-#{$i}{
+        width: #{$i}px;
+    }
+    .h-#{$i}{
+        height: #{$i}px;
+    }
+}
+
+
+
+@for $i from 1 through 50{
+    .br-#{$i}{
+        border-radius: #{$i}px;
+    }
+}
+.lh-1{
+    line-height: 1;
+}
+.lh-1_5{
+    line-height: 1.5;
+}
+.lh-2{
+    line-height: 2;
+}
