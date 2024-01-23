@@ -41,7 +41,7 @@
                   </span>
     
                   <span class="nav_name mx-2 nav_name">
-                    طلباتي
+                    {{  $t('nav.orders') }}
                   </span>
                 </div>
     
@@ -60,7 +60,7 @@
                         </span>
           
                         <span class="nav_name mx-2 nav_name">
-                          قيد الموافقة
+                          {{ $t('nav.pending') }}
                         </span>
                       </div>
           
@@ -78,7 +78,7 @@
                         </span>
           
                         <span class="nav_name mx-2 nav_name">
-                          بانتظار الدفع
+                          {{ $t('nav.wainting') }}
                         </span>
                       </div>
           
@@ -96,7 +96,7 @@
                         </span>
           
                         <span class="nav_name mx-2 nav_name">
-                         تم الانتهاء
+                         {{ $t('nav.finished') }}
                         </span>
                       </div>
           
@@ -121,7 +121,7 @@
                   </span>
     
                   <span class="nav_name mx-2 nav_name">
-                    المالية
+                    {{ $t('nav.finance') }}
                   </span>
                 </div>
     
@@ -140,7 +140,7 @@
                         </span> -->
           
                         <span class="nav_name mx-2 nav_name">
-                          المحفظة والطلبات
+                          {{ $t('nav.wallet') }}
                         </span>
                       </div>
           
@@ -158,7 +158,7 @@
                           </span>
             -->
                         <span class="nav_name mx-2 nav_name">
-                          طلبات التسوية
+                          {{ $t('nav.settle') }}
                         </span>
                       </div>
           
@@ -183,7 +183,7 @@
                   </span>
     
                   <span class="nav_name mx-2 nav_name">
-                    الاعدادات
+                    {{ $t('nav.config') }}
                   </span>
                 </div>
     
@@ -204,7 +204,7 @@
                     <router-link to="/config/register" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          اعدادات التسجيل
+                          {{ $t('nav.reg-setting') }}
                         </span>
                       </div>
           
@@ -218,7 +218,7 @@
                     <router-link to="/config/entity" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          بيانات الكيان
+                          {{ $t('nav.entity-setting') }}
                         </span>
                       </div>
           
@@ -233,7 +233,7 @@
                     <router-link to="/config/school" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          المراحل
+                          {{ $t('nav.levels-setting') }}
                         </span>
                       </div>
           
@@ -247,7 +247,7 @@
                     <router-link to="/config/faculty" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          الكليات
+                          {{ $t('nav.facs') }}
                         </span>
                       </div>
           
@@ -261,7 +261,7 @@
                     <router-link to="/config/department" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          الأقسام
+                          {{ $t('nav.departs') }}
                         </span>
                       </div>
           
@@ -276,7 +276,7 @@
                     <router-link to="/config/studYears" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          السنين الدراسية
+                          {{ $t('nav.years') }}
                         </span>
                       </div>
           
@@ -290,7 +290,7 @@
                     <router-link to="/config/prices" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          الاسعار 
+                          {{ $t('nav.prices') }} 
                         </span>
                       </div>
           
@@ -304,7 +304,7 @@
                     <router-link to="/config/shape" class="flex_between">
                       <div class="d-flex align-items-center">
                         <span class="nav_name mx-2 nav_name">
-                          نموذج تسجيل الطلاب 
+                          {{ $t('nav.shape') }} 
                         </span>
                       </div>
           
@@ -330,7 +330,7 @@
                 </span>
   
                 <span class="mx-2 nav_name">
-                  التقييمات
+                  {{ $t('nav.rates') }}
                 </span>
               </div>
   
@@ -351,7 +351,7 @@
                 </span>
   
                 <span class="mx-2 nav_name">
-                  المشرفين
+                  {{ $t('nav.directs') }}
                 </span>
               </div>
   
@@ -369,7 +369,7 @@
                       </span> -->
         
                       <span class="nav_name mx-2 nav_name">
-                        إدارة المشرفين
+                        {{ $t('nav.directs_mng') }}
                       </span>
                     </div>
         
@@ -387,7 +387,7 @@
                         </span>
           -->
                       <span class="nav_name mx-2 nav_name">
-                        تقارير المشرفين
+                        {{ $t('nav.reports') }}
                       </span>
                     </div>
         

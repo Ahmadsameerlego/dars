@@ -34,6 +34,10 @@ const routes = [
         path : '/rates',
         component : ()=> import('@/views/dashboard/ratesView.vue')
       },
+      {
+        path : '/notifications',
+        component : ()=> import('@/views/dashboard/notificationsView.vue')
+      },
       // orders 
       {
         path : '/orders/pending',

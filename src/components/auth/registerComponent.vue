@@ -19,10 +19,10 @@
                 <!-- single step  -->
                 <div class="single_step flex_center flex-column">
                     <div class="circle_step active finished flex_center">
-                        <span class="fas fa-check white_color fs-18"></span>
+                        <span class="fas fa-check white_color fs-18" v-if="!responsible"></span>
                     </div>
                     <div class="step_name fs-18 black_color"> مدير النظام </div>
-                    <span class="line active"></span>
+                    <span class="line" :class="{'active' : responsible==false}"></span>
                 </div>
                 <!-- single step  -->
                 <div class="single_step flex_center flex-column">
@@ -51,7 +51,7 @@
 
 
             <!-- مدير النظام  -->
-            <section class="management mb-3" v-if="false">
+            <section class="management mb-3" v-if="responsible">
 
                 <form action="">
                     <div class="profile_image">
@@ -91,17 +91,17 @@
 
 
             <!-- بيانات الكيان  -->
-            <section id="entity_info" v-if="true">
+            <section id="entity_info" v-if="entityInfo">
                 <entity_infoVue />
             </section>
 
             <!-- بيانات اضافية -->
-            <section id="additional_info" v-if="false">
+            <section id="additional_info" v-if="additionalInfo">
                 <additional_info />
             </section>
 
             <!-- كلمة المرور  -->
-            <section id="password" v-if="false">
+            <section id="password" v-if="password">
                 <passwordConfirm />
             </section>
 
@@ -125,23 +125,51 @@ import otp from './otpActive.vue';
 import entity_infoVue from './entity_info.vue';
 import additional_info from './additional_info.vue';
 import passwordConfirm from './passwordConfirmation.vue'
-import { ref } from 'vue';
+import { ref  , onMounted} from 'vue';
+import {  mapActions } from 'vuex';
 export default {
 
     setup(){
         const profile  = ref(null);
         const otp = ref(false) ;
+        const countries = ref([]);
 
         const changeProfilePic = (e)=>{
             const file = e.target.files[0];
             profile.value.src = URL.createObjectURL(file);
         }
+        // entities 
+        const responsible = ref(true);
+        const entityInfo = ref(false);
+        const additionalInfo = ref(false);
+        const password = ref(false);
+
+
+        // methods 
+        const {getCountries} = mapActions('general' , ['getCountries'])
+
+        // mounted 
+        onMounted(async ()=>{
+            try{
+                const response = await getCountries();
+                countries.value = response ; 
+                console.log(countries.value)
+            }catch(error){
+                console.error('error while get countries : ' , error)
+            }
+        } ) ;
 
 
         return{
             changeProfilePic,
+            getCountries,
             profile,
-            otp
+            otp,
+            responsible,
+            entityInfo,
+            password,
+            additionalInfo,
+            countries
         }
 
     },

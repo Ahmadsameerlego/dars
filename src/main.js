@@ -40,6 +40,17 @@ dom.watch();
 
 
 import '@/assets/scss/style.scss'
+
+
+// import axios
+import axios from 'axios';
+axios.defaults.baseURL = 'https://dev.dras-sa.com/api/v1/';
+// axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');   
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.lang = 'ar'
+
+
+
 createApp(App)
     .use(store)
     .use(router)

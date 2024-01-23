@@ -1,26 +1,19 @@
 <template>
     <header id="header" class="pt-4 pb-4 px-4">
-        <section class="header_content flex_between">
-            <!-- toggle icon  -->
-            <button class="btn toggle_icon" @click="switchSide()">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
-            <button class="btn openSide" @click="opeSide()">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
-
+        <section class="header_content flex_end">
+           
             <!-- user interaction  -->
            <div class="d-flex align-items-baseline">
                 
                 <div class="mx-3">
-                    <button class="btn main_btn pt-2 pb-2 px-5"> ارسال اشعار للمستخدمين </button>
+                    <button class="btn main_btn pt-2 pb-2 px-5" @click="send_nots=true"> ارسال اشعار للمستخدمين </button>
                 </div>
 
                 <!-- notfications  -->
-                <router-link to="/center/notification" class="position-relative btn nots mx-3">
+                <router-link to="/notifications" class="position-relative btn nots mx-3">
                     <i class="fa-regular fa-bell"></i>
-                    <span class="not_count" v-if="notifyCount>0">
-                        {{ notifyCount }}
+                    <span class="not_count" >
+                        3
                     </span>
                 </router-link>
 
@@ -30,76 +23,64 @@
                 <div class="admin dropdown">
                     <button class="btn  d-flex dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="admin_image">
-                            <img :src="image" alt="admin image">
+                            <img :src="require('@/assets/imgs/profile.jpeg')" alt="admin image">
                         </div>
                         <div class="admin_info mx-2">
-                            <h6 class="name fw-bold"> {{ name }} </h6>
-                            <span class="title fw-6"> {{ title }} </span>
+                            <h6 class="name fw-bold"> الاسم هنا </h6>
+                            <span class="title fw-6 gray_color">مدير النظام </span>
                         </div>
-                        <span class="profile_icon">
-                            <i class="fa-solid fa-angle-down"></i>
-                        </span>
+                        
 
                     </button>
                     <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
                         <li class="single">
-                            <router-link to="/center/about"> {{ $t('dash.about') }} </router-link>
+                            <router-link to="/center/about"> من نحن</router-link>
                         </li>
                         <li class="single">
-                            <router-link to="/center/faqs"> {{ $t('dash.fqs') }}  </router-link>
+                            <router-link to="/center/faqs">الاسئلة الشائعة </router-link>
                         </li>
                         <li class="single">
-                            <router-link to="/center/terms"> {{ $t('dash.terms') }} </router-link>
+                            <router-link to="/center/terms"> الشروط والأحكام </router-link>
                         </li>
                     </ul>
                 </div>
 
-                <!-- language  -->
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-
-                        <!-- <img class="flag_img" :src="require('@/assets/imgs/sudia.png')" alt=""  v-if="$i18n.locale=='ar'"> -->
-                        <!-- <img class="flag_img" :src="require('@/assets/imgs/en.png')" alt=""  v-else-if="$i18n.locale=='en'"> -->
-                        
-                        <span v-if="$i18n.locale=='ar'">
-                            {{ $t('dash.arabic') }}
-                        </span>
-                        <span v-else-if="$i18n.locale=='en'">
-                            {{ $t('dash.english') }}
-                        </span>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li>
-                            <a class="dropdown-item" href="#" @click="switchLanguage('ar')">
-                                {{ $t('dash.arabic') }}
-                                <!-- <img class="flag_img" :src="require('@/assets/imgs/sudia.png')" alt=""> -->
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#" @click="switchLanguage('en')">
-                                {{ $t('dash.english') }}
-                                <!-- <img class="flag_img" :src="require('@/assets/imgs/en.png')" alt=""> -->
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
+                
             </div>
         </section>
     </header>
+
+    <!-- send notification to users  -->
+    <!-- otp  -->
+    <Dialog v-model:visible="send_nots" modal   :style="{ width: '34rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+        <form action="" class="send_not_form">
+            <div class="form-group">
+                <label for=""> نص الإشعار </label>
+                <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="يرجى ادخال نص الإشعار هنا"></textarea>
+            </div>
+            <div class="mt-3">
+                <button class="btn main_btn pt-2 pb-2 w-100 fs-19 fw-6"> إرسال إشعار </button>
+            </div>
+        </form>
+    </Dialog>
 </template>
 
 <script>
 import axios from 'axios';
+import Dialog from 'primevue/dialog';
+
 export default {
     data(){
         return{
             name : '',
             title : '',
             image : '',
-            notifyCount : ''
+            notifyCount : '',
+            send_nots : false
         }
+    },
+    components:{
+        Dialog
     },
     methods:{
         switchLanguage(locale) {
@@ -156,12 +137,22 @@ export default {
 </script>
 
 <style lang="scss">
+    .send_not_form{
+        textarea{
+            height: 100px;
+            background: whitesmoke;
+            border: none ;
+        }
+    }
+    .admin{
+        margin-left: 100px;
+    }
     .openSide{
         display: none !important; 
     }
     .not_count{
         position: absolute;
-        background: #3290d8;
+        background: #2858f6;
         color: #fff;
         width: 20px;
         height: 20px;
@@ -170,7 +161,7 @@ export default {
         align-items: center;
         border-radius: 50%;
         top: -10px;
-        left: -8px;
+        right: -8px;
         font-size: 12px;
     }
     .dropdown-menu{
