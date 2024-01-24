@@ -6,7 +6,7 @@
             <div class="position-relative">
                 <InputText type="text" v-model="logoValue" readonly placeholder="يرجى ارفاق شعار الكيان"/>
                 <!-- file  -->
-                <input type="file" class="entity_logo upload absolute" @change="handleLogoUpload">
+                <input type="file" name="logo" class="entity_logo upload absolute" @change="handleLogoUpload">
                 <i class="fa-solid fa-paperclip main_color"></i>
             </div>
             
@@ -24,7 +24,7 @@
             <div class="position-relative">
                 <InputText type="text" v-model="coverValue" readonly placeholder="يرجى ارفاق صورة الغلاف"/>
                 <!-- file  -->
-                <input type="file" class="entity_logo upload absolute"  @change="handleCoverUpload">
+                <input type="file" name="cover" class="entity_logo upload absolute"  @change="handleCoverUpload">
                 <i class="fa-solid fa-paperclip main_color"></i>
             </div>
 
@@ -37,7 +37,7 @@
 
         <div class="form-group  mb-3">
             <label for="" class="mx-4"> اسم الكيان </label>            
-            <InputText type="text" v-model="entity_name"  placeholder="يرجى ادخال اسم الكيان"/>
+            <InputText type="text" v-model="entity_name" name="entity_name"  placeholder="يرجى ادخال اسم الكيان"/>
         </div>  
 
         <div class="form-group  mb-3">
@@ -162,17 +162,21 @@ import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
 import InputNumber from 'primevue/inputnumber';
 
-import { ref} from 'vue';
+import { ref , onMounted , computed} from 'vue';
+import { useStore } from 'vuex';
 export default {
 
     setup(){
         const { uploadedImage : logoUploadedImage, handleImageUpload:handleLogoUpload  , removeImage : removeLogo} = useImageUploader();
         const { uploadedImage : coverUploadedImage, handleImageUpload :handleCoverUpload  , removeImage: removeCover} = useImageUploader();
-
+        const store = useStore()
         const logoValue = ref('');
         const coverValue = ref('');
         const features = ref([]);
         const feature = ref('');
+        const cities = computed(() => {
+            return  store.state.general.cities
+        } )
 
         // methods 
         const addFeature = ()=>{
@@ -185,7 +189,15 @@ export default {
             features.value.splice( index , 1 )
         }
 
+        // ============= mounted =============
 
+        onMounted(() => {
+            store.dispatch('general/getCities');
+            
+        })
+
+
+        // 
         return{
             logoUploadedImage,
             coverUploadedImage,
@@ -198,7 +210,8 @@ export default {
             features,
             feature,
             addFeature,
-            removeFeature
+            removeFeature,
+            cities
         }
     },
 

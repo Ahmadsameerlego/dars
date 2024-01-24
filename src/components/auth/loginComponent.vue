@@ -45,7 +45,7 @@
 
                 <div class="flex_center">
                     <span class="fs-18 reg_issue">
-                        تسجيل جديد ككيان تعليمي ! <router-link to="/" class="login_underLine"> التسجيل الان </router-link>
+                        تسجيل جديد ككيان تعليمي ! <router-link to="/register" class="login_underLine"> التسجيل الان </router-link>
                     </span>
                 </div>
             </form>

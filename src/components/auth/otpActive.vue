@@ -27,7 +27,7 @@
                                 name="code"
                                 input-classes="otp-input"
                                 separator=""
-                                :num-inputs="4"
+                                :num-inputs="6"
                                 :should-auto-focus="true"
                                 autofocus
                                 input-type="letter-numeric"
@@ -40,46 +40,115 @@
 
 
                 <div class="mt-3 mb-3 flex_between">
-                    <div class="resend">
-                        <span class="cursor-pointer main_color fs-18"> إعادة إرسال الرمز </span>
+                    <div class="resend" v-if="!isCodeSent">
+                        <span class="cursor-pointer main_color fs-18" @click.prevent="resendOtp"> إعادة إرسال الرمز </span>
                     </div>
-                    <div class="time">
-                        <span class="counter main_color fs-17"> {{ timer }}  </span>
+                    <div class="time" v-if="isCodeSent">
+                        <span class="counter main_color fs-17">  سيتم إعادة ارسال الكود في{{ timer }} ثانية </span>
                     </div>
                 </div>
 
                 <div class="flex_between mt-4">
-                    <button class="main_btn btn pt-3 pb-3 w-50"> تأكيد </button>
+                    <button class="main_btn btn pt-3 pb-3 w-50" :disabled="disabled" @click.prevent="sendCode"> تأكيد </button>
                     <button class="border_btn btn pt-3 pb-3 w-50 mx-2" type="button" @click="closeOtp"> الرجوع </button>
                 </div>
         </form>
     </section>
+    <Toast />
 </template>
 
 <script>
-import { ref , onBeforeMount } from 'vue';
+import { ref , onBeforeMount, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
+
 export default {
-    setup(props ,context){
+    setup(props, context) {
+        const store = useStore();
         const code = ref('');
         const disabled = ref(true)
         const loader = ref(false);
-        const timer = ref(120);
-        const intervalId = ref(null)
+        const timer = ref(60);
+        const isCodeSent = ref(true);
+        const intervalId = ref(null);
+
+        const toast = useToast();
+
+        // ================= watchers =================
+        watch(code, () => {
+            if (code.value.length == 6) {
+                disabled.value = false;
+            } else {
+                disabled.value = true;
+            }
+        })
          
         // ================= methods ==========================
-        const startTimer = ()=> {
+        const startTimer = () => {
+            isCodeSent.value = true;
             intervalId.value = setInterval(() => {
                 if (timer.value > 0) {
                     timer.value --;
                 } else {
                     clearInterval(intervalId.value);
-                    disabled.value = false
+                    disabled.value = false;
+                    isCodeSent.value = false;
                 }
             }, 1000);
         }
 
         const closeOtp = ()=>{
             context.emit('closeOtpModal', false) ;
+        }
+
+        // main active otp 
+        const sendCode = async() => {
+            const fd = new FormData;
+            fd.append('code', code.value);
+            fd.append('entity_id', localStorage.getItem('entity_id'));
+
+            try {
+                const response = await store.dispatch('auth/sendCode' , fd );
+                if (response.success == true) {
+                        toast.add({ severity: 'success', summary: response.message, life: 3000 });
+                        // close otp modal 
+                        setTimeout(() => {
+                            context.emit('closeOtpModal', false);
+                            context.emit('responsibleData', true);
+                            localStorage.setItem('responsibleDataDone', true);
+                        }, 1000);
+
+                        // save id of entity 
+                        localStorage.setItem('entity_id', response.entity_id);
+
+                } else {
+                    toast.add({ severity: 'errpr', summary: response.message, life: 3000 });
+                }
+            } catch (error) {
+                toast.add({ severity: 'errpr', summary: error, life: 3000 });
+            }
+        }
+
+        // main resend 
+        const resendOtp = async () => {
+            const fd = new FormData();
+            fd.append('entity_id', localStorage.getItem('entity_id'));
+
+            try {
+                const response = await store.dispatch('auth/resendCode', fd);
+                if (response.success == true) {
+                    toast.add({ severity: 'success', summary: response.message, life: 3000 });
+                    setTimeout(() => {
+                        timer.value = 60;
+                        startTimer();
+                    }, 1000);
+                } else {
+                    toast.add({ severity: 'error', summary: response.message, life: 3000 });
+                }
+            } catch (error) {
+                toast.add({ severity: 'error', summary: error, life: 3000 });
+            }
         }
         // ================= mounted ==========================
 
@@ -94,8 +163,15 @@ export default {
             timer,
             intervalId ,
             startTimer,
-            closeOtp
+            closeOtp,
+            sendCode,
+            isCodeSent,
+            resendOtp
         }
+    },
+
+    components: {
+        Toast
     }
 }
 </script>
@@ -103,14 +179,14 @@ export default {
 <style lang="scss">
     #otp{
         .otp_gif{
-            width: 250px;
-            height: 247px;
+            width: 220px;
+            height: 207px;
         }
     }
 
     .otp-input{
-        width: 70px;
-        height: 60px;
+        width: 60px;
+        height: 50px;
         margin: 0 10px;
         border: 1px solid #346cf6;
         border-radius: 15px;
