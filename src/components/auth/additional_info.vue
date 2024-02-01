@@ -168,18 +168,54 @@ export default {
         // const { uploadedImages, handleImageUpload, removeImage } = useImageMultiUploader();
 
         const logoValue = ref('');
+        // const images = ref([]);
+        // const imagesName = ref([]);
+        // const image1 = ref([new Image()])
+        // ============ methods ============
+
+        
+        // const uploadAdImages = (file) => {
+        //     let selectedImages2 = file.files;
+
+        //     for (let i = 0; i < selectedImages2.length; i++) {
+        //         images.value.push(selectedImages2[i]);
+        //         imagesName.value.push(selectedImages2[i].name);
+        //     }
+
+        //     applyImage();
+        // };
+
+        // const removeImage = (image, key) => {
+        //     images.value.splice(key, 1);
+        //     applyImage();
+        // };
+
+        // // const applyImage = () => {
+        // //     for (let i = 0; i < images.value.length; i++) {
+        // //         let reader = new FileReader();
+
+        // //         reader.onload = () => {
+        // //             // Check if image1.value[i] exists before setting its src property
+        // //             if (image1.value[i]) {
+        // //                 image1.value[i].src = reader.result;
+        // //             } else {
+        // //                 console.error('image1.value[' + i + '] is undefined');
+        // //             }
+        // //         };
+
+        // //         reader.readAsDataURL(images.value[i]);
+        // //     }
+        // // };
         return{
             logoUploadedImage,
             handleLogoUpload,
             logoValue,
             removeLogo,
-
-
-    //         uploadedImages,
-    //   handleImageUpload,
-    //   removeImage,
-
-
+            // images,
+            // imagesName,
+            // uploadAdImages,
+            // removeImage,
+            // applyImage
         }
     },
     data(){

@@ -26,14 +26,16 @@
                 </div>
                 <!-- single step  -->
                 <div class="single_step flex_center flex-column" >
-                    <div class="circle_step" :class="{'active' : entityInfo == true}"></div>
+                    <div class="circle_step flex_center" :class="{'active' : entityInfo == true || entityComplete == true}">
+                        <span class="fas fa-check white_color fs-18" v-if="entityComplete==true"></span>
+                    </div>
                     <div class="step_name fs-18 black_color"> بيانات الكيان </div>
-                    <span class="line"></span>
+                    <span class="line" :class="{'active': entityComplete==true}"></span>
 
                 </div>
                 <!-- single step  -->
-                <div class="single_step flex_center flex-column">
-                    <div class="circle_step"></div>
+                <div class="single_step flex_center flex-column" >
+                    <div class="circle_step" :class="{'active' : additionalInfo==true}"></div>
                     <div class="step_name fs-18 black_color"> بيانات اضافية </div>
                     <span class="line"></span>
 
@@ -96,8 +98,8 @@
 
 
             <!-- بيانات الكيان  -->
-            <section id="entity_info" v-if="entityInfo">
-                <entity_infoVue />
+            <section id="entity_info"  v-if="entityInfo" >
+                <entity_infoVue @EntityInfoComplete="EntityInfoComplete" />
             </section>
 
             <!-- بيانات اضافية -->
@@ -118,7 +120,8 @@
 
         </div>
     </div>
-       <Toast />
+    
+    <Toast />
 
 
    </section>
@@ -169,7 +172,12 @@ export default {
         const isNameValid = ref(true);
         const isPhoneValid = ref(true);
         const disabled = ref(true);
-        const registerForm = ref(null)
+        const registerForm = ref(null);
+
+        const entityComplete = ref(false);
+
+
+        
 
 
 
@@ -246,6 +254,13 @@ export default {
             entityInfo.value = true;
         }
 
+        // save entity info data
+        const EntityInfoComplete = () => {
+            entityComplete.value = true;
+            entityInfo.value = false;
+            additionalInfo.value = true;
+        }
+
         // main register 
         const register = async () => {
             
@@ -308,6 +323,12 @@ export default {
                     isResponsibleDataDone.value = true;
                     entityInfo.value = true;
                 }
+                // save entity info data permenant 
+                if (localStorage.getItem('EntityInfoDone') == 'true') {
+                    entityComplete.value = true;
+                    entityInfo.value = false;
+                    additionalInfo.value = true;
+                }
             }
         );
 
@@ -334,7 +355,9 @@ export default {
             registerForm,
             chooseCountryCode,
             saveResponsible,
-            isResponsibleDataDone
+            isResponsibleDataDone,
+            entityComplete,
+            EntityInfoComplete
         }
 
     },
